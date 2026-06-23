@@ -1,0 +1,86 @@
+[
+    {
+        "name": "get_user_profile",
+        "description": "Get a user's profile including fitness level, goals, and injuries. Always call this first before giving any fitness advice.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "string",
+                    "description": "The unique user ID e.g. user_001"
+                }
+            },
+            "required": ["user_id"]
+        }
+    },
+    {
+        "name": "log_workout",
+        "description": "Log a completed workout for a user.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "string",
+                    "description": "The unique user ID"
+                },
+                "exercise": {
+                    "type": "string",
+                    "description": "Name of the exercise e.g. bench press"
+                },
+                "sets": {
+                    "type": "integer",
+                    "description": "Number of sets completed"
+                },
+                "reps": {
+                    "type": "integer",
+                    "description": "Number of reps per set"
+                },
+                "weight_kg": {
+                    "type": "number",
+                    "description": "Weight used in kilograms"
+                }
+            },
+            "required": ["user_id", "exercise", "sets", "reps", "weight_kg"]
+        }
+    },
+    {
+        "name": "get_workout_history",
+        "description": "Get the workout history for a user for the last N days. Always call this before creating a new workout plan.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "string",
+                    "description": "The unique user ID"
+                },
+                "days": {
+                    "type": "integer",
+                    "description": "Number of past days to retrieve. Default is 7."
+                }
+            },
+            "required": ["user_id"]
+        }
+    },
+    {
+        "name": "generate_workout_plan",
+        "description": "Generate a personalized workout plan based on goal and fitness level.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "goal": {
+                    "type": "string",
+                    "description": "The user's fitness goal e.g. build muscle, lose weight"
+                },
+                "fitness_level": {
+                    "type": "string",
+                    "description": "The user's fitness level e.g. beginner, intermediate, advanced"
+                },
+                "days_per_week": {
+                    "type": "integer",
+                    "description": "How many days per week the user can train"
+                }
+            },
+            "required": ["goal", "fitness_level", "days_per_week"]
+        }
+    }
+]
