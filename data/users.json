@@ -13,5 +13,23 @@
         "injuries": [],
         "days_per_week": 7,
         "joined_date": "2026-06-23"
+    },
+    "PT-5220": {
+        "member_id": "PT-5220",
+        "first_name": "Mugdha",
+        "last_name": "Saroj",
+        "age": 34,
+        "weight_kg": 68.0,
+        "height_cm": 157.0,
+        "fitness_level": "beginner",
+        "goals": [
+            "lose weight",
+            "overall fitness"
+        ],
+        "injuries": [
+            "none"
+        ],
+        "days_per_week": 4,
+        "joined_date": "2026-06-23"
     }
 }

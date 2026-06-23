@@ -1,1 +1,52 @@
-{}
+{
+    "PT-5220": [
+        {
+            "exercise": "Bodyweight Squats",
+            "body_part": "legs",
+            "sets": 3,
+            "reps": 15,
+            "weight_kg": 0,
+            "date": "2026-06-23 12:48:04"
+        },
+        {
+            "exercise": "Forward Lunges",
+            "body_part": "legs",
+            "sets": 3,
+            "reps": 12,
+            "weight_kg": 0,
+            "date": "2026-06-23 12:48:04"
+        },
+        {
+            "exercise": "Glute Bridges",
+            "body_part": "legs",
+            "sets": 3,
+            "reps": 15,
+            "weight_kg": 0,
+            "date": "2026-06-23 12:48:04"
+        },
+        {
+            "exercise": "Wall Sit",
+            "body_part": "legs",
+            "sets": 3,
+            "reps": 1,
+            "weight_kg": 0,
+            "date": "2026-06-23 12:48:04"
+        },
+        {
+            "exercise": "Calf Raises",
+            "body_part": "legs",
+            "sets": 3,
+            "reps": 15,
+            "weight_kg": 0,
+            "date": "2026-06-23 12:48:04"
+        },
+        {
+            "exercise": "Brisk Walk",
+            "body_part": "cardio",
+            "sets": 1,
+            "reps": 1,
+            "weight_kg": 0,
+            "date": "2026-06-23 12:48:04"
+        }
+    ]
+}
