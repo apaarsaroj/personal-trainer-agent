@@ -1,13 +1,13 @@
 [
     {
         "name": "get_user_profile",
-        "description": "Get a user's profile including fitness level, goals, and injuries. Always call this first before giving any fitness advice.",
+        "description": "Get any member's profile by their member ID. Only use this for fetching OTHER members' profiles or if the current member updates their information. Never call this for the logged-in member — their profile is already in the system prompt.",
         "input_schema": {
             "type": "object",
             "properties": {
                 "user_id": {
                     "type": "string",
-                    "description": "The unique user ID e.g. user_001"
+                    "description": "The member ID in format PT-XXXX"
                 }
             },
             "required": ["user_id"]
@@ -15,17 +15,13 @@
     },
     {
         "name": "log_workout",
-        "description": "Log a completed workout for a user.",
+        "description": "Log a completed workout for the current member. Automatically determine the body_part from the exercise name.",
         "input_schema": {
             "type": "object",
             "properties": {
-                "user_id": {
-                    "type": "string",
-                    "description": "The unique user ID"
-                },
                 "exercise": {
                     "type": "string",
-                    "description": "Name of the exercise e.g. bench press"
+                    "description": "Name of the exercise e.g. bench press, squat, deadlift"
                 },
                 "sets": {
                     "type": "integer",
@@ -37,50 +33,50 @@
                 },
                 "weight_kg": {
                     "type": "number",
-                    "description": "Weight used in kilograms"
+                    "description": "Weight used in kilograms. Use 0 for bodyweight exercises."
+                },
+                "body_part": {
+                    "type": "string",
+                    "description": "Primary muscle group targeted. Determine this automatically from the exercise name. Options: chest, back, shoulders, arms, legs, core, cardio, full body"
                 }
             },
-            "required": ["user_id", "exercise", "sets", "reps", "weight_kg"]
+            "required": ["exercise", "sets", "reps", "weight_kg", "body_part"]
         }
     },
     {
         "name": "get_workout_history",
-        "description": "Get the workout history for a user for the last N days. Always call this before creating a new workout plan.",
+        "description": "Get workout history for the current member. Always call this before creating a new workout plan to understand what they have already done.",
         "input_schema": {
             "type": "object",
             "properties": {
-                "user_id": {
-                    "type": "string",
-                    "description": "The unique user ID"
-                },
                 "days": {
                     "type": "integer",
                     "description": "Number of past days to retrieve. Default is 7."
+                },
+                "body_part": {
+                    "type": "string",
+                    "description": "Optional filter by body part e.g. chest, legs, back. Leave empty to get all workouts."
                 }
             },
-            "required": ["user_id"]
+            "required": []
         }
     },
     {
         "name": "generate_workout_plan",
-        "description": "Generate a personalized workout plan based on goal and fitness level.",
+        "description": "Generate a personalized workout plan for the current member. Use the member profile from the system prompt to personalize — consider their fitness level, goals, and injuries. Never recommend exercises that could worsen existing injuries. Use the member's default days_per_week from their profile unless they explicitly say a different number in the conversation.",
         "input_schema": {
             "type": "object",
             "properties": {
-                "goal": {
-                    "type": "string",
-                    "description": "The user's fitness goal e.g. build muscle, lose weight"
-                },
-                "fitness_level": {
-                    "type": "string",
-                    "description": "The user's fitness level e.g. beginner, intermediate, advanced"
-                },
                 "days_per_week": {
                     "type": "integer",
-                    "description": "How many days per week the user can train"
+                    "description": "How many days per week the member can train. Always use the value from the member profile unless the member explicitly mentions a different number in the conversation."
+                },
+                "focus": {
+                    "type": "string",
+                    "description": "Optional specific focus area e.g. chest, legs, cardio, full body. Leave empty for a balanced plan based on member goals."
                 }
             },
-            "required": ["goal", "fitness_level", "days_per_week"]
+            "required": ["days_per_week"]
         }
     }
 ]

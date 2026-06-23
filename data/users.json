@@ -1,20 +1,17 @@
 {
-    "user_001": {
-        "name": "Apaar",
-        "age": 25,
-        "fitness_level": "intermediate",
-        "goals": ["build muscle", "improve endurance"],
-        "injuries": ["lower back pain"],
-        "weight_kg": 88,
-        "height_cm": 175
-    },
-    "user_002": {
-        "name": "Mugdha",
-        "age": 33,
+    "PT-4217": {
+        "member_id": "PT-4217",
+        "first_name": "Apaar",
+        "last_name": "Saroj",
+        "age": 29,
+        "weight_kg": 88.0,
+        "height_cm": 175.0,
         "fitness_level": "beginner",
-        "goals": ["lose weight", "improve flexibility"],
+        "goals": [
+            "compete in body building compitions"
+        ],
         "injuries": [],
-        "weight_kg": 60,
-        "height_cm": 130
+        "days_per_week": 7,
+        "joined_date": "2026-06-23"
     }
 }
