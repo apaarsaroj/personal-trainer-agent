@@ -7,7 +7,8 @@ from trainer.tools import (
     get_user_profile,
     log_workout,
     get_workout_history,
-    generate_workout_plan
+    generate_workout_plan,
+    search_knowledge_base
 )
 
 load_dotenv()
@@ -75,12 +76,20 @@ def build_tools(member_id: str) -> list:
             focus=focus
         )
         return json.dumps(result)
+    
+    @tool
+    def search_fitness_knowledge(query: str) -> str:
+        """Search the fitness knowledge base for evidence-based information about exercises, nutrition, recovery, and training principles. Use this before giving any fitness advice."""
+        print(f"🔍 SEARCHING KNOWLEDGE BASE: {query}")
+        result = search_knowledge_base(query)
+        return json.dumps(result)
 
     return [
         get_member_profile,
         log_member_workout,
         get_member_workout_history,
-        create_workout_plan
+        create_workout_plan,
+        search_fitness_knowledge
     ]
 
 

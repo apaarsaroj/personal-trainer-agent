@@ -113,3 +113,14 @@ def generate_workout_plan(days_per_week: int, focus: str = None) -> dict:
         "days_per_week": days_per_week,
         "focus": focus if focus else "full body"
     }
+
+def search_knowledge_base(query: str) -> dict:
+    """Search the fitness knowledge base for relevant information."""
+    from trainer.knowledge_base import retrieve
+    
+    results = retrieve(query, n_results=3)
+    
+    return {
+        "query": query,
+        "results": results
+    }
