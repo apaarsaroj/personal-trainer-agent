@@ -1,6 +1,8 @@
 from trainer.auth import register_user, login_user
-from trainer.agent import run_agent
-
+from trainer.graph import create_graph, run_graph
+import os
+import sqlite3
+from langgraph.checkpoint.sqlite import SqliteSaver
 
 def registration_flow() -> dict:
     """Handle new member registration."""
@@ -73,7 +75,10 @@ def chat_loop(profile: dict):
     print("Type 'quit' to exit.\n")
     print("-" * 50)
 
-    messages = []
+    os.makedirs("data", exist_ok=True)
+    conn = sqlite3.connect("data/memory.db", check_same_thread=False)
+    memory = SqliteSaver(conn)
+    compiled_graph = create_graph(profile, memory)
 
     while True:
 
@@ -86,7 +91,7 @@ def chat_loop(profile: dict):
         if not user_input:
             continue
 
-        response, messages = run_agent(user_input, messages, profile)
+        response = run_graph(user_input, profile, compiled_graph, profile["member_id"])
         print(f"\nTrainer: {response}")
 
 
