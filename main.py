@@ -1,12 +1,16 @@
-from trainer.auth import register_user, login_user
-from trainer.graph import create_graph, run_graph
+"""Interactive CLI for member registration, login, and chat."""
+
 import os
 import sqlite3
+
 from langgraph.checkpoint.sqlite import SqliteSaver
+
+from trainer.auth import login_user, register_user
+from trainer.graph import create_graph, run_graph
+
 
 def registration_flow() -> dict:
     """Handle new member registration."""
-
     print("\n--- New Member Registration ---\n")
 
     first_name = input("First name: ").strip().capitalize()
@@ -26,7 +30,6 @@ def registration_flow() -> dict:
     goals = [g.strip() for g in goals]
     injuries = [i.strip() for i in injuries.split(",")] if injuries else []
 
-    # Validate days per week
     if days_per_week < 1:
         days_per_week = 1
     if days_per_week > 7:
@@ -41,7 +44,7 @@ def registration_flow() -> dict:
         fitness_level=fitness_level,
         goals=goals,
         injuries=injuries,
-        days_per_week=days_per_week
+        days_per_week=days_per_week,
     )
 
     print(f"\n{result['message']}")
@@ -52,7 +55,6 @@ def registration_flow() -> dict:
 
 def login_flow() -> dict:
     """Handle member login."""
-
     print("\n--- Member Login ---\n")
 
     while True:
@@ -63,14 +65,13 @@ def login_flow() -> dict:
         if result["success"]:
             print(f"\n{result['message']}")
             return result
-        else:
-            print(f"\n{result['message']}")
-            print("Please try again.\n")
+
+        print(f"\n{result['message']}")
+        print("Please try again.\n")
 
 
 def chat_loop(profile: dict):
     """Run the main chat loop."""
-
     print(f"\nHello {profile['first_name']}! I am your personal trainer.")
     print("Type 'quit' to exit.\n")
     print("-" * 50)
@@ -81,7 +82,6 @@ def chat_loop(profile: dict):
     compiled_graph = create_graph(profile, memory)
 
     while True:
-
         user_input = input("\nYou: ").strip()
 
         if user_input.lower() == "quit":

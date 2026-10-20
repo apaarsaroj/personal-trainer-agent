@@ -1,15 +1,17 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from langgraph.checkpoint.memory import MemorySaver
+"""FastAPI HTTP surface for chat, member lookup, and workout history."""
 
-from trainer.auth import register_user, login_user
+from fastapi import FastAPI, HTTPException
+from langgraph.checkpoint.memory import MemorySaver
+from pydantic import BaseModel
+
+from trainer.auth import login_user
 from trainer.graph import create_graph, run_graph
-from trainer.tools import get_workout_history, log_workout
+from trainer.tools import get_workout_history
 
 app = FastAPI(title="Personal Trainer Agent")
 
 checkpointer = MemorySaver()
-_graphs = {}
+_graphs: dict = {}
 
 
 class ChatRequest(BaseModel):
@@ -46,5 +48,5 @@ def get_member(member_id: str):
 
 
 @app.get("/members/{member_id}/workouts")
-def list_workouts(member_id: str, days: int = 7, body_part: str = None):
+def list_workouts(member_id: str, days: int = 7, body_part: str | None = None):
     return get_workout_history(days=days, body_part=body_part, user_id=member_id)

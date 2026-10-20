@@ -1,7 +1,11 @@
-from trainer.auth import register_user, login_user
-from trainer.agent import run_agent
+"""Manual smoke script: register, login, and run a few legacy agent turns.
 
-# Step 1 — Register a test user
+Requires ANTHROPIC_API_KEY. Prefer pytest for automated checks.
+"""
+
+from trainer.agent import run_agent
+from trainer.auth import login_user, register_user
+
 print("=" * 50)
 print("Step 1: Registering test user")
 print("=" * 50)
@@ -14,13 +18,13 @@ result = register_user(
     height_cm=175,
     fitness_level="intermediate",
     goals=["build muscle", "improve endurance"],
-    injuries=["lower back pain"]
+    injuries=["lower back pain"],
+    days_per_week=4,
 )
 
 print(result["message"])
 member_id = result["member_id"]
 
-# Step 2 — Login
 print("\n" + "=" * 50)
 print("Step 2: Logging in")
 print("=" * 50)
@@ -29,7 +33,6 @@ login_result = login_user(member_id)
 profile = login_result["profile"]
 print(login_result["message"])
 
-# Step 3 — Chat with agent
 print("\n" + "=" * 50)
 print("Step 3: Chat with agent")
 print("=" * 50)
@@ -39,12 +42,10 @@ messages = []
 response, messages = run_agent(
     "Can you give me a workout plan for this week?",
     messages,
-    profile
+    profile,
 )
-
 print("\nTrainer:", response)
 
-# Step 4 — Log a workout
 print("\n" + "=" * 50)
 print("Step 4: Log a workout")
 print("=" * 50)
@@ -52,12 +53,10 @@ print("=" * 50)
 response, messages = run_agent(
     "I just did 4 sets of bench press, 8 reps, 70kg",
     messages,
-    profile
+    profile,
 )
-
 print("\nTrainer:", response)
 
-# Step 5 — Check history
 print("\n" + "=" * 50)
 print("Step 5: Check workout history")
 print("=" * 50)
@@ -65,7 +64,6 @@ print("=" * 50)
 response, messages = run_agent(
     "What have I trained this week?",
     messages,
-    profile
+    profile,
 )
-
 print("\nTrainer:", response)

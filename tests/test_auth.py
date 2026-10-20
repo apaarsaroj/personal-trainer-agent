@@ -6,8 +6,15 @@ from trainer import auth
 
 def _register(**overrides):
     details = dict(
-        first_name="Sam", last_name="Lee", age=28, weight_kg=75.0, height_cm=180.0,
-        fitness_level="beginner", goals=["weight loss"], injuries=[], days_per_week=3,
+        first_name="Sam",
+        last_name="Lee",
+        age=28,
+        weight_kg=75.0,
+        height_cm=180.0,
+        fitness_level="beginner",
+        goals=["weight loss"],
+        injuries=[],
+        days_per_week=3,
     )
     details.update(overrides)
     return auth.register_user(**details)
