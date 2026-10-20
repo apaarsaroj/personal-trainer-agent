@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#1b4332" />
+    <title>Form — Personal Trainer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+
+    <main id="app" class="app">
+      <!-- Gate: login / register -->
+      <section id="gate" class="gate view is-active" aria-label="Sign in">
+        <div class="gate-inner">
+          <p class="brand">Form</p>
+          <h1 class="gate-headline">Your coach, always on the floor with you.</h1>
+          <p class="gate-lede">
+            Log in with your member ID or create a profile — then train through a real conversation.
+          </p>
+
+          <div class="mode-toggle" role="tablist" aria-label="Account mode">
+            <button type="button" class="mode-btn is-active" data-mode="login" role="tab" aria-selected="true">
+              Member login
+            </button>
+            <button type="button" class="mode-btn" data-mode="register" role="tab" aria-selected="false">
+              New member
+            </button>
+          </div>
+
+          <form id="login-form" class="gate-form" autocomplete="on">
+            <label class="field">
+              <span>Member ID</span>
+              <input
+                name="member_id"
+                id="login-member-id"
+                placeholder="PT-4217"
+                inputmode="text"
+                required
+              />
+            </label>
+            <button type="submit" class="btn-primary">Enter the floor</button>
+          </form>
+
+          <form id="register-form" class="gate-form is-hidden" autocomplete="on">
+            <div class="field-row">
+              <label class="field">
+                <span>First name</span>
+                <input name="first_name" required />
+              </label>
+              <label class="field">
+                <span>Last name</span>
+                <input name="last_name" required />
+              </label>
+            </div>
+            <div class="field-row">
+              <label class="field">
+                <span>Age</span>
+                <input name="age" type="number" min="13" max="100" required />
+              </label>
+              <label class="field">
+                <span>Days / week</span>
+                <input name="days_per_week" type="number" min="1" max="7" value="4" required />
+              </label>
+            </div>
+            <div class="field-row">
+              <label class="field">
+                <span>Weight (kg)</span>
+                <input name="weight_kg" type="number" min="1" step="0.1" required />
+              </label>
+              <label class="field">
+                <span>Height (cm)</span>
+                <input name="height_cm" type="number" min="1" step="0.1" required />
+              </label>
+            </div>
+            <label class="field">
+              <span>Fitness level</span>
+              <select name="fitness_level" required>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate" selected>Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Goals</span>
+              <input name="goals" placeholder="build muscle, get stronger" required />
+            </label>
+            <label class="field">
+              <span>Injuries <em>(optional)</em></span>
+              <input name="injuries" placeholder="lower back, none" />
+            </label>
+            <button type="submit" class="btn-primary">Create profile</button>
+          </form>
+
+          <p id="gate-error" class="form-error" role="alert" hidden></p>
+        </div>
+      </section>
+
+      <!-- Chat -->
+      <section id="chat" class="chat view" aria-label="Trainer chat" hidden>
+        <header class="chat-header">
+          <div class="chat-brand-block">
+            <p class="brand brand-sm">Form</p>
+            <p id="member-line" class="member-line"></p>
+          </div>
+          <button type="button" id="logout-btn" class="btn-ghost">Sign out</button>
+        </header>
+
+        <div id="messages" class="messages" aria-live="polite"></div>
+
+        <form id="composer" class="composer">
+          <label class="sr-only" for="message-input">Message your trainer</label>
+          <textarea
+            id="message-input"
+            rows="1"
+            placeholder="Ask for a plan, log a set, or check recovery…"
+            maxlength="4000"
+          ></textarea>
+          <button type="submit" id="send-btn" class="btn-send" aria-label="Send">
+            <span>Send</span>
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
