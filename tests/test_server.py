@@ -1,9 +1,23 @@
+from pathlib import Path
+
 import pytest
 from fastapi.testclient import TestClient
 
 import server
 
-PROFILE = {"member_id": "PT-0001", "first_name": "Test"}
+PROFILE = {
+    "member_id": "PT-0001",
+    "first_name": "Test",
+    "last_name": "User",
+    "age": 30,
+    "weight_kg": 70.0,
+    "height_cm": 175.0,
+    "fitness_level": "intermediate",
+    "goals": ["strength"],
+    "injuries": [],
+    "days_per_week": 4,
+    "joined_date": "2026-01-01",
+}
 
 
 @pytest.fixture
@@ -13,9 +27,23 @@ def client(monkeypatch):
     calls = {"create_graph": 0}
 
     def fake_login(member_id):
-        if member_id == "PT-0001":
-            return {"success": True, "profile": PROFILE}
+        cleaned = member_id.strip().upper()
+        if cleaned == "PT-0001":
+            return {
+                "success": True,
+                "member_id": "PT-0001",
+                "first_name": "Test",
+                "profile": PROFILE,
+                "message": "Welcome back Test!",
+            }
         return {"success": False, "message": "Member ID not found"}
+
+    def fake_register(**kwargs):
+        return {
+            "success": True,
+            "member_id": "PT-0001",
+            "message": "Welcome!",
+        }
 
     def fake_create_graph(profile, checkpointer):
         calls["create_graph"] += 1
@@ -25,6 +53,7 @@ def client(monkeypatch):
         return f"echo: {user_message}"
 
     monkeypatch.setattr(server, "login_user", fake_login)
+    monkeypatch.setattr(server, "register_user", fake_register)
     monkeypatch.setattr(server, "create_graph", fake_create_graph)
     monkeypatch.setattr(server, "run_graph", fake_run_graph)
 
@@ -35,6 +64,12 @@ def client(monkeypatch):
 
 def test_chat_returns_agent_reply(client):
     response = client.post("/chat", json={"member_id": "PT-0001", "message": "hello"})
+    assert response.status_code == 200
+    assert response.json() == {"reply": "echo: hello"}
+
+
+def test_api_chat_returns_agent_reply(client):
+    response = client.post("/api/chat", json={"member_id": "PT-0001", "message": "hello"})
     assert response.status_code == 200
     assert response.json() == {"reply": "echo: hello"}
 
@@ -77,3 +112,47 @@ def test_workouts_endpoint_passes_query_params(client, monkeypatch):
 
     assert response.status_code == 200
     assert seen == {"days": 14, "body_part": "legs", "user_id": "PT-0001"}
+
+
+def test_api_login_returns_profile(client):
+    response = client.post("/api/login", json={"member_id": "PT-0001"})
+    assert response.status_code == 200
+    assert response.json()["member_id"] == "PT-0001"
+    assert response.json()["profile"]["first_name"] == "Test"
+
+
+def test_api_register_returns_member(client):
+    response = client.post(
+        "/api/register",
+        json={
+            "first_name": "Sam",
+            "last_name": "Lee",
+            "age": 28,
+            "weight_kg": 75,
+            "height_cm": 180,
+            "fitness_level": "beginner",
+            "goals": ["strength"],
+            "injuries": [],
+            "days_per_week": 3,
+        },
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert body["member_id"] == "PT-0001"
+    assert body["profile"]["first_name"] == "Test"
+
+
+def test_web_index_is_served(client):
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "text/html" in response.headers["content-type"]
+    assert "Form" in response.text
+
+
+def test_web_assets_are_served(client):
+    css = client.get("/static/styles.css")
+    js = client.get("/static/app.js")
+    assert css.status_code == 200
+    assert "text/css" in css.headers["content-type"]
+    assert js.status_code == 200
+    assert Path(server.WEB_DIR / "app.js").is_file()
