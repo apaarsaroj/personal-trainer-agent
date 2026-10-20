@@ -4,6 +4,7 @@ Input checks run before the model sees a message. Output checks run on the
 model's reply before it goes back to the member. Everything here is
 deterministic, so it is cheap, fast and easy to test without model calls.
 """
+
 import re
 from dataclasses import dataclass
 
@@ -56,7 +57,9 @@ _INJECTION = re.compile(
     r"|you are now (a|an|in)\b|developer mode|jailbreak",
     re.I,
 )
-_PAIN_WORDS = re.compile(r"\b(pain|painful|injur(y|ed)|sprain|strain|torn|swelling|dizz(y|iness))\b", re.I)
+_PAIN_WORDS = re.compile(
+    r"\b(pain|painful|injur(y|ed)|sprain|strain|torn|swelling|dizz(y|iness))\b", re.I
+)
 
 
 @dataclass

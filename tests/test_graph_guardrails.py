@@ -1,4 +1,5 @@
 """Runs the real LangGraph with a fake model, to prove the guardrail routing works."""
+
 from pathlib import Path
 
 import pytest
@@ -11,14 +12,23 @@ from trainer.guardrails import OUTPUT_DISCLAIMER
 ROOT = Path(__file__).resolve().parent.parent
 
 PROFILE = {
-    "member_id": "PT-0001", "first_name": "Test", "last_name": "User", "age": 30,
-    "weight_kg": 70.0, "height_cm": 175.0, "fitness_level": "intermediate",
-    "goals": ["strength"], "injuries": [], "days_per_week": 4, "joined_date": "2026-01-01",
+    "member_id": "PT-0001",
+    "first_name": "Test",
+    "last_name": "User",
+    "age": 30,
+    "weight_kg": 70.0,
+    "height_cm": 175.0,
+    "fitness_level": "intermediate",
+    "goals": ["strength"],
+    "injuries": [],
+    "days_per_week": 4,
+    "joined_date": "2026-01-01",
 }
 
 
 class FakeModel:
     """Stands in for ChatAnthropic. Records how many times it was called."""
+
     reply = "Do 3 sets of 8 squats."
     calls = 0
 

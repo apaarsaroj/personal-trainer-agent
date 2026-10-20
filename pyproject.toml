@@ -1,7 +1,7 @@
 [project]
 name = "personal-trainer-agent"
 version = "0.1.0"
-description = "Add your description here"
+description = "LangGraph personal trainer agent with FastAPI, RAG, and rule-based guardrails"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
@@ -20,3 +20,46 @@ dependencies = [
     "sentence-transformers>=5.6.0",
     "uvicorn>=0.49.0",
 ]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.0",
+    "pytest>=8.0.0",
+    "ruff>=0.11.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+target-version = "py314"
+line-length = 100
+src = [".", "trainer", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "SIM", # flake8-simplify
+]
+ignore = [
+    "E501", # line length handled by formatter / docstrings
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Scripts adjust sys.path before importing the package.
+"scripts/*.py" = ["E402"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["trainer"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

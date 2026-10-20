@@ -57,8 +57,7 @@ def test_history_for_unknown_user_is_empty(data_files):
 
 
 def test_history_excludes_workouts_older_than_window(data_files):
-    _write_workouts(data_files["workouts"], "PT-0001",
-                    [_entry(1, "legs"), _entry(30, "chest")])
+    _write_workouts(data_files["workouts"], "PT-0001", [_entry(1, "legs"), _entry(30, "chest")])
 
     history = tools.get_workout_history(days=7, user_id="PT-0001")
     assert history["total_sessions"] == 1
@@ -66,8 +65,7 @@ def test_history_excludes_workouts_older_than_window(data_files):
 
 
 def test_history_body_part_filter_ignores_case(data_files):
-    _write_workouts(data_files["workouts"], "PT-0001",
-                    [_entry(1, "Legs"), _entry(2, "chest")])
+    _write_workouts(data_files["workouts"], "PT-0001", [_entry(1, "Legs"), _entry(2, "chest")])
 
     history = tools.get_workout_history(days=7, body_part="legs", user_id="PT-0001")
     assert history["total_sessions"] == 1

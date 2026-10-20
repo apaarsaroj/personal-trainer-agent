@@ -1,4 +1,5 @@
 """Shared fixtures. Tests never touch the real data files or the Anthropic API."""
+
 import json
 import sys
 from pathlib import Path
@@ -15,21 +16,25 @@ def data_files(tmp_path, monkeypatch):
     users_file = tmp_path / "users.json"
     workouts_file = tmp_path / "workouts.json"
 
-    users_file.write_text(json.dumps({
-        "PT-0001": {
-            "member_id": "PT-0001",
-            "first_name": "Test",
-            "last_name": "User",
-            "age": 30,
-            "weight_kg": 70.0,
-            "height_cm": 175.0,
-            "fitness_level": "intermediate",
-            "goals": ["strength"],
-            "injuries": [],
-            "days_per_week": 4,
-            "joined_date": "2026-01-01",
-        }
-    }))
+    users_file.write_text(
+        json.dumps(
+            {
+                "PT-0001": {
+                    "member_id": "PT-0001",
+                    "first_name": "Test",
+                    "last_name": "User",
+                    "age": 30,
+                    "weight_kg": 70.0,
+                    "height_cm": 175.0,
+                    "fitness_level": "intermediate",
+                    "goals": ["strength"],
+                    "injuries": [],
+                    "days_per_week": 4,
+                    "joined_date": "2026-01-01",
+                }
+            }
+        )
+    )
     workouts_file.write_text(json.dumps({}))
 
     import trainer.auth as auth

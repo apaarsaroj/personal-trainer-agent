@@ -7,6 +7,7 @@ Part 1 (free, offline): does retrieval return relevant text for known questions?
 Part 2 (uses your Anthropic API key, a few cents): how long does the agent take to answer?
 Neither part writes to your workout or user data.
 """
+
 import json
 import os
 import statistics
@@ -55,7 +56,9 @@ def check_retrieval():
         hit = any(w.lower() in text for w in words)
         hits += hit
         print(f"  {'HIT ' if hit else 'MISS'}  {question}")
-    print(f"\nRetrieval: {hits} of {len(RETRIEVAL_CHECKS)} questions returned relevant text in the top 3 chunks")
+    print(
+        f"\nRetrieval: {hits} of {len(RETRIEVAL_CHECKS)} questions returned relevant text in the top 3 chunks"
+    )
 
 
 def check_latency():
